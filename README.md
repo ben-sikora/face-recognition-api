@@ -1,6 +1,6 @@
 # Face Recongition API 
 
- API for the [Face Recongition App] (https://github.com/ben-sikora/face-recognition-app)
+ API for the [Face Recongition App](https://github.com/ben-sikora/face-recognition-app)
 
 The API is a node server that connects with a SQL database to verify and store user information. 
 
