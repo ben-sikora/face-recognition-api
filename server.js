@@ -5,6 +5,7 @@ const saltRounds = 1;
 const knex = require('knex');
 
 const register= require('./controllers/register.js');
+const signin= require('./controllers/signin.js');
 
 const databaseCon= knex({
     client: 'pg',
@@ -50,22 +51,7 @@ app.get('/', (req, res) =>{
     res.json(database.users); 
 }); 
 
-app.post('/signin', (req, res) =>{
-    databaseCon.select('email', 'hash').from('login')
-        .where('email', '=', req.body.email)
-        .then(data => {
-            const isValid= bcrypt.compareSync(req.body.password, data[0].hash)
-            if(isValid){
-                return databaseCon.select('*').from('users').where('email', '=', req.body.email).then(user =>{
-                    res.json(user[0])
-                }).catch(err => {res.status(400).json('unable to get user')});
-            } else{
-                res.status(400).json('wrong credtionals')
-            }
-        })
-        .catch(err => {res.status(400).json('wrong credtionals')});
-    
-}); 
+app.post('/signin', (req, res) => {signin.handleSignin(req, res, databaseCon, bcrypt)}); 
 
 app.post('/register', (req, res) => {register.handleRegister(req, res, databaseCon, bcrypt)}); 
 
