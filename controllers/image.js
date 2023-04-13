@@ -1,3 +1,22 @@
+const clarifai= require('clarifai');
+
+
+const app = new clarifai.App({
+    apiKey: '208d9f9bcdcb488db579bd94cb05e194'
+   })
+
+const handleapiCall= (req, res) =>{
+    app.models.predict({
+        id: 'face-detection',
+        name: 'face-detection',
+        version: '6dc7e46bc9124c5c8824be4822abe105',
+        type: 'visual-detector',
+      }, req.body.input)
+      .then(data=> {res.json(data)})
+      .catch(err=>res.status(400).json('unable to connect to api'))
+
+}
+
 const handleImage= (req, res, databaseCon) =>{
     const{id} = req.body; 
     databaseCon('users').where('id', '=', id)
@@ -24,4 +43,5 @@ const handleImage= (req, res, databaseCon) =>{
 
 module.exports={
     handleImage: handleImage,
+    handleapiCall
 }
