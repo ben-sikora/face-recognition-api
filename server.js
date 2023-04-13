@@ -7,6 +7,8 @@ const knex = require('knex');
 const register= require('./controllers/register.js');
 const signin= require('./controllers/signin.js');
 const profile= require('./controllers/profile.js');
+const image= require('./controllers/image.js');
+
 
 const databaseCon= knex({
     client: 'pg',
@@ -58,29 +60,7 @@ app.post('/register', (req, res) => {register.handleRegister(req, res, databaseC
 
 app.get('/profile/:id', (req, res) => {profile.handleProfileGet(req, res, databaseCon)}); 
 
-app.put('/image', (req, res) =>{
-    const{id} = req.body; 
-    databaseCon('users').where('id', '=', id)
-    .increment('entries', 1)
-    .returning('entries').then(entries =>{
-        res.json(entries[0].entries);
-    }).catch(err =>{
-        res.status(400).json('unable to get count');
-    })
-    /*
-    let found= false; 
-    database.users.forEach((user) => {
-        if(req.body.id == user.id){
-            found=true; 
-            user.entries++; 
-            return res.json(user.entries); 
-        }
-    }); 
-
-    if(!found){
-        res.status(404).json('user not found');
-    }*/
-}); 
+app.put('/image', (req, res) => {image.handleImage(req, res, databaseCon)}); 
 
 app.listen(3000, ()=>{
     console.log("Server is up!"); 
