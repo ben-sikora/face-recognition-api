@@ -64,6 +64,7 @@ app.get('/profile/:id', (req, res) => {profile.handleProfileGet(req, res, databa
 app.put('/image', (req, res) => {image.handleImage(req, res, databaseCon)}); 
 app.post('/imageurl', (req, res) => {image.handleapiCall(req, res)}); 
 
-app.listen(3000, ()=>{
-    console.log("Server is up!"); 
-}); 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}...`);
+});
